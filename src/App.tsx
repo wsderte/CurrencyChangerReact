@@ -1,6 +1,6 @@
 import './App.css'
-import { Changer } from './components/changer/changer'
-import { HeaderName } from './components/header/header'
+import Changer from './components/changer/changer'
+import HeaderName from './components/header/header'
 
 function App() {
     return (

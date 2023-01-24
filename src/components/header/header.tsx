@@ -1,21 +1,17 @@
 import './header.css'
-// import { useFetch } from '../../service/useFetch'
 import { IApiData } from './../../model/data.interface'
-import { useFetch2 } from '../../service/useFetch2'
+import { useFetch } from '../../service/useFetch'
 import { useEffect, useState } from 'react'
+import React from 'react'
 
-// const URL: string = 'https://api.exchangerate.host/latest?base=UAH'
-
-export const HeaderName = () => {
-    // const { data: currencyUSD }: IApiData | { data: null } = useFetch('USD')
+const HeaderName: React.FC = () => {
     const [currencyUSD, setCurrencyUSD] = useState<IApiData>()
     const [currencyEUR, setCurrencyEUR] = useState<IApiData>()
-    const { fetchData } = useFetch2()
-    const func = async () => {
-        const baseUSD: any = await fetchData('USD').then((value) => value)
-        const baseEUR: any = await fetchData('EUR').then((value) => value)
-        setCurrencyUSD(baseUSD)
-        setCurrencyEUR(baseEUR)
+    const { fetchData } = useFetch()
+
+    const func = async (): Promise<void> => {
+        await fetchData('USD').then((value): void => setCurrencyUSD(value))
+        await fetchData('EUR').then((value): void => setCurrencyEUR(value))
     }
 
     useEffect(() => {
@@ -30,14 +26,16 @@ export const HeaderName = () => {
                 <div className="header-logo">Currency changer</div>
                 <div className="header-box">
                     <div className="header-currency">
-                        1UAH = USD {currencyUSD?.rates?.['UAH']}
+                        1 UAH = USD {currencyUSD?.rates?.['UAH']}
                     </div>
 
                     <div className="header-currency">
-                        1UAH = EUR {currencyEUR?.rates?.['UAH']}
+                        1 UAH = EUR {currencyEUR?.rates?.['UAH']}
                     </div>
                 </div>
             </div>
         </div>
     )
 }
+
+export default React.memo(HeaderName)

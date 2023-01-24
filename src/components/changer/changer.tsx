@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-// import { useFetch } from '../../service/useFetch'
-import { IApiData } from './../../model/data.interface'
-import { useFetch2 } from '../../service/useFetch2'
+import { FetchReturn, IApiData } from './../../model/data.interface'
+import { useFetch } from '../../service/useFetch'
 
 import './changer.css'
 
@@ -16,14 +15,14 @@ type FormValues = {
 
 type SelectedValue = 'left' | 'right'
 
-// TO DO  change INTERFACE IApiDATA TO NORMAL !!!!
-
-export const Changer = () => {
+export const Changer: React.FC = () => {
     const { register, handleSubmit, setValue, getValues } =
         useForm<FormValues>()
+
     const [leftBase, setLeftBase] = useState<IApiData>()
     const [rightBase, setRightBase] = useState<IApiData>()
-    const { fetchData } = useFetch2()
+
+    const { fetchData }: FetchReturn = useFetch()
 
     const multiplicationCalcFunc = (
         base: IApiData,
@@ -40,6 +39,7 @@ export const Changer = () => {
             console.log(leftSelectValue, rightSelectValue, ' VALUES ')
             multiplicator = base.rates?.[selectedValue]
         }
+
         return multiplicator
     }
 
@@ -160,3 +160,5 @@ export const Changer = () => {
         </form>
     )
 }
+
+export default React.memo(Changer)
